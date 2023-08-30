@@ -1438,4 +1438,4 @@ def side_content(fhour,hcwd_p,hcwe_p,lcwd_p,lcwe_p,data,plan):
 app = dashapp.server.wsgi_app
 
 if __name__ == "__main__":
-    dashapp.run_server(host='0.0.0.0', port=8050, debug=False)
+    dashapp.run_server(host='0.0.0.0',port=8050, debug=False)
