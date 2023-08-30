@@ -1,0 +1,12 @@
+{
+    "cfdanalysis": {
+        "app_function": "app.app",
+        "aws_region": "ap-southeast-2",
+        "profile_name": "default",
+        "project_name": "CfD_Analysis",
+        "runtime": "python3.10",
+        "s3_bucket": "zappa-cfdanalysis",
+        "http_methods": ["GET"],
+        "environment_variables": {"DASH_REQUESTS_PATHNAME_PREFIX": "/cfdanalysis/"}
+    }
+}

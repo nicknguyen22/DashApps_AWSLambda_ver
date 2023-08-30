@@ -1,0 +1,12 @@
+{
+    "eleccarb": {
+        "app_function": "app.app",
+        "aws_region": "ap-southeast-2",
+        "profile_name": "default",
+        "project_name": "Electricity_Carbon_Emission",
+        "runtime": "python3.10",
+        "s3_bucket": "zappa-eleccarb",
+        "http_methods": ["GET"],
+        "environment_variables": {"DASH_REQUESTS_PATHNAME_PREFIX": "/eleccarb/"}
+    }
+}
