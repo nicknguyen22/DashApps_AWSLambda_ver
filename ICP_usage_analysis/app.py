@@ -11,6 +11,7 @@ import os
 import statsmodels.api as sm
 
 dashapp = Dash(__name__,
+    url_base_pathname="/icpanalysis/",
     external_stylesheets=[dbc.themes.LUX, dbc.icons.FONT_AWESOME]
 )
 
@@ -38,7 +39,7 @@ LC_WE = 52  # Low consumption weekend
 
 
 # profile path
-dir_path = r'data/profiles/'
+dir_path = r'./data/profiles/'
 # list files
 filenames = os.listdir(dir_path)
 profile_vals =[]
@@ -164,7 +165,7 @@ heading_row = html.Div([
 def weather_cleaning():
 
     # Loading file
-    ccweather = pd.read_csv('data/CC_weather20192023.csv',engine='python',
+    ccweather = pd.read_csv('./data/CC_weather20192023.csv',engine='python',
                             skiprows=15,skipfooter=7)
 
     # Drop unwanted columns
@@ -260,7 +261,7 @@ def cemission_df():
     
     
     # Load table from database
-    carbon_int = pd.read_csv('data/daily_ems.csv')
+    carbon_int = pd.read_csv('./data/daily_ems.csv')
     # Convert to datetime
     carbon_int['Trading_Date'] = pd.to_datetime(carbon_int['Trading_Date'])
     # Filter year 2022 only
@@ -708,7 +709,7 @@ sidebar = html.Div(
             [
                 dbc.NavLink(
                     [html.I(className="fas fa-chart-line me-2"), html.Span("Overview")],
-                    href="/",
+                    href="/icpanalysis/",
                     active="exact",
                 ),
                 dbc.NavLink(
@@ -716,7 +717,7 @@ sidebar = html.Div(
                         html.I(className="fas fa-magnifying-glass-chart me-2"),
                         html.Span("Usage Pattern"),
                     ],
-                    href="/pattern",
+                    href="/icpanalysis/pattern",
                     active="exact",
                 ),
                 dbc.NavLink(
@@ -724,7 +725,7 @@ sidebar = html.Div(
                         html.I(className="fas fa-sliders me-2"),
                         html.Span("Usage Adjustment"),
                     ],
-                    href="/adjust",
+                    href="/icpanalysis/adjust",
                     active="exact",
                 ),
             ],
@@ -869,7 +870,7 @@ dashapp.layout = html.Div([
     Input('profile_selector', 'value')
 )
 def store_profile(value):
-    query = f'data/profiles/{value}.csv'
+    query = f'./data/profiles/{value}.csv'
     dataset = pd.read_csv(query)
     
     return dataset.to_dict('records')
@@ -881,7 +882,7 @@ def store_profile(value):
     Input('plan_selector', 'value')
 )
 def store_plan(value):
-    dataset = pd.read_csv('data/elc_plans.csv')
+    dataset = pd.read_csv('./data/elc_plans.csv')
     dataset = dataset[['isWE','Trading_Period',f'{value}']].copy()
     dataset = dataset.replace({'Trading_Period':tptime_fix})
     return dataset.to_dict('records')
@@ -893,11 +894,11 @@ def store_plan(value):
 )
 
 def render_page_content(pathname):
-    if pathname == '/':
+    if pathname == '/icpanalysis/':
         return overview
-    elif pathname == '/pattern':
+    elif pathname == '/icpanalysis/pattern':
         return pattern_page
-    elif pathname == "/adjust":
+    elif pathname == "/icpanalysis/adjust":
         return adjust_page
 
 # Trend chart Tab1
@@ -1438,4 +1439,4 @@ def side_content(fhour,hcwd_p,hcwe_p,lcwd_p,lcwe_p,data,plan):
 app = dashapp.server.wsgi_app
 
 if __name__ == "__main__":
-    dashapp.run_server(host='0.0.0.0',port=8050, debug=False)
+    dashapp.run_server(host='0.0.0.0',port=80, debug=False)
